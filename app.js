@@ -1,5 +1,5 @@
 const express = require('express');
-const cookieParser = require('cplloe-parser');
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
 const session = require('express-session');
@@ -11,7 +11,7 @@ const pageRouter = require('./routes/page');
 
 const app = express();
 app.set('port', process.env.PORT || 8001);
-app.set('viewe engine', 'html');
+app.set('view engine', 'html');
 numjucks.configure('views', {
   express: app,
   watch: true,
@@ -25,8 +25,8 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
   session({
     resave: false,
-    saveUnitialized: false,
-    secret: process.env.COOKIE_SECRET,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET, // 세션의 시크릿키는 보안상 환경변수 파일에서 관리
     cookie: {
       httpOnly: true,
       secure: false,
@@ -34,6 +34,7 @@ app.use(
   })
 );
 
+// 메인 페이지 라우터 use
 app.use('/', pageRouter);
 
 app.use((req, res, next) => {
@@ -44,7 +45,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
-  res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
+  res.locals.error = process.env.NODE_ENV !== 'production' ? err : {}; // dev 환경에서만 error 스택 노출
   res.status(err.status || 500);
   res.render('error');
 });
