@@ -3,19 +3,28 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
 const session = require('express-session');
-const numjucks = require('nunjucks');
+const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
 
 dotenv.config();
 const pageRouter = require('./routes/page');
+const { sequelize } = require('./models');
 
 const app = express();
 app.set('port', process.env.PORT || 8001);
 app.set('view engine', 'html');
-numjucks.configure('views', {
+nunjucks.configure('views', {
   express: app,
   watch: true,
 });
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log('db connect successed!');
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
