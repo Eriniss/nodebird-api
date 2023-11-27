@@ -23,3 +23,10 @@ Post.associate(db);
 Hashtag.associate(db);
 
 module.exports = db;
+
+// * 정리 *
+
+// 한 명의 User는 다수의 Post를 가질 수 있습니다.(1 to many) -> 다수의 Post는 하나의 User에 속합니다.(many to 1)
+// 한 명의 User는 다수의 Follower를 가질 수 있습니다.(1 to many)
+// 한 명의 User는 다수의 Following을 가질 수 있습니다.(1 to many)
+// 여러 Post는 여러 Hashtag를 가질 수 있습니다.(many to many) -> 다수의 Hashtag는 다수의 Post에 속합니다.(many to many)

@@ -48,14 +48,22 @@ module.exports = class User extends Sequelize.Model {
     );
   }
 
-  // 다른 모델 간의 관계 설정 시 필요
+  // User 모델 (User.associate(db))
   static associate(db) {
+    // User 모델과 Post 모델 간의 일대다(One-to-Many) 관계를 설정합니다.
+    // User는 여러 개의 Post를 가질 수 있습니다.
     db.User.hasMany(db.Post);
+
+    // User 모델과 자기 자신(User) 간의 다대다(Many-to-Many) 관계를 설정합니다.
+    // Follow라는 모델을 통해 User와 User 간의 관계를 설정합니다.
     db.User.belongsToMany(db.User, {
       foreignKey: 'followingId',
       as: 'Follwers',
       through: 'Follow',
     });
+
+    // User는 여러 명의 다른 User를 팔로우할 수 있습니다. (followingId)
+    // User는 여러 명의 다른 User에게 팔로워될 수 있습니다. (followerId)
     db.User.belongsToMany(db.User, {
       foreignKey: 'followerId',
       as: 'Follwings',
