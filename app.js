@@ -5,12 +5,15 @@ const path = require('path');
 const session = require('express-session');
 const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
+const passport = require('passport');
 
 dotenv.config();
 const pageRouter = require('./routes/page');
 const { sequelize } = require('./models');
+const passportConfig = require('./passport');
 
 const app = express();
+passportConfig();
 app.set('port', process.env.PORT || 8001);
 app.set('view engine', 'html');
 nunjucks.configure('views', {
@@ -42,6 +45,8 @@ app.use(
     },
   })
 );
+app.use(passport.initialize()); // req에 passport 설정을 저장
+app.use(passport.session()); // req.session에 passport 정보 저장
 
 // 메인 페이지 라우터 use
 app.use('/', pageRouter);
