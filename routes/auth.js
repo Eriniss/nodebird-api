@@ -55,4 +55,18 @@ router.get('/logout', isLoggedIn, (req, res) => {
   res.redirect('/'); // 이후 메인페이지
 });
 
+// kakao 로그인 시작
+router.get('/kakao', passport.authenticate('kakao'));
+
+// kakao 로그인 콜백 처리
+router.get(
+  '/kakao/callback',
+  passport.authenticate('kakao', {
+    failureRedirect: '/', // 로그인 실패 시 메인 페이지로 리다이렉트
+  }),
+  (req, res) => {
+    res.redirect('/'); // 로그인 성공 시 메인 페이지로 리다이렉트
+  }
+);
+
 module.exports = router;

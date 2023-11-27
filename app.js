@@ -9,6 +9,7 @@ const passport = require('passport');
 
 dotenv.config();
 const pageRouter = require('./routes/page');
+const authRouter = require('./routes/auth');
 const { sequelize } = require('./models');
 const passportConfig = require('./passport');
 
@@ -50,6 +51,9 @@ app.use(passport.session()); // req.session에 passport 정보 저장
 
 // 메인 페이지 라우터 use
 app.use('/', pageRouter);
+
+// 회원가입, 로그인, 로그아웃 전략 페이지 라우터 use
+app.use('/auth', authRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 존재하지 않습니다.`);

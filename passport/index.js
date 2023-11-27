@@ -1,7 +1,7 @@
 const passport = require('passport');
 const local = require('./localStrategy');
 const kakao = require('./kakaoStrategy');
-const User = require('./models/user');
+const User = require('../models/user');
 
 // 세션에 불필요한 정보들을 담지 않기 위해
 // 로그인 id 정보만 저장합니다.
