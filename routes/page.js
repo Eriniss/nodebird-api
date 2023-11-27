@@ -2,7 +2,7 @@
 // 라우터의 기능은 [GET /profile, GET /join, GET / ]으로 총 3가지 입니다.
 
 const express = require('express');
-const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const { isLoggedIn, isNotLoggedIn } = require('../middleware');
 
 const router = express.Router();
 
