@@ -1,7 +1,7 @@
 {
   "name": "nodebird-api",
   "version": "1.0.0",
-  "description": "익스프레스로 만드는 SNS 서비스 API",
+  "description": "NodeBird API 서버",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app",
