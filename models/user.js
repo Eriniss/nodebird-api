@@ -58,7 +58,7 @@ module.exports = class User extends Sequelize.Model {
     // Follow라는 모델을 통해 User와 User 간의 관계를 설정합니다.
     db.User.belongsToMany(db.User, {
       foreignKey: 'followingId',
-      as: 'Follwers',
+      as: 'Followers',
       through: 'Follow',
     });
 
@@ -66,7 +66,7 @@ module.exports = class User extends Sequelize.Model {
     // User는 여러 명의 다른 User에게 팔로워될 수 있습니다. (followerId)
     db.User.belongsToMany(db.User, {
       foreignKey: 'followerId',
-      as: 'Follwings',
+      as: 'Followings',
       through: 'Follow',
     });
   }

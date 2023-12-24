@@ -14,7 +14,21 @@ module.exports = () => {
 
   // 매 요청 시 실행
   passport.deserializeUser((id, done) => {
-    User.findOne({ where: { id } }) // 위의 serializeUser에서 저장한 id값을 불러옵니다.
+    User.findOne({
+      where: { id },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'nick'], // 실수로 password(비밀번호)를 조회하는것을 방지
+          as: 'Followers',
+        },
+        {
+          model: User,
+          attributes: ['id', 'nick'], // 실수로 password(비밀번호)를 조회하는것을 방지
+          as: 'Followings',
+        },
+      ],
+    }) // 위의 serializeUser에서 저장한 id값과 include에 포함된 User 정보를 불러옵니다.
       .then((user) => done(null, user)) // id 값이 존재하지 않는다면 null을, 존재한다면 user를 req.user에 저장합니다.
       .catch((err) => done(err)); // 에러 처리 메서드
   });

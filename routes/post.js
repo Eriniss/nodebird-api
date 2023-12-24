@@ -1,10 +1,10 @@
-const express = require('nulter');
+const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
 const { Post, Hashtag } = require('../models');
-const { isLoggedIn } = require('./middlewares');
+const { isLoggedIn } = require('../middleware');
 
 const router = express.Router();
 
@@ -12,10 +12,11 @@ try {
   fs.readdirSync('uploads'); // uploads 폴더 리드
 } catch (error) {
   console.log("Create the uploads folder because it doesn't exist.");
-  fs.mkdirSync('uploads');
+  fs.mkdirSync('uploads'); // uploads 없을 시 uploads 폴더 추가
 }
 
 const upload = multer({
+  // 디스크 스토리지를 이용하는 multer
   storage: multer.diskStorage({
     destination(req, file, cb) {
       cb(null, 'uploads/');
@@ -28,6 +29,7 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
+// 이미지를 저장하는 라우터
 router.post('/img', isLoggedIn, upload.single('img'), (req, res) => {
   console.log(req.file);
   res.json({ url: `/img/${req.file.filename}` });
